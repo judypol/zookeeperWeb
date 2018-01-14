@@ -1,20 +1,4 @@
-/**
- #
- # Copyright (c) 2014, Deem Inc. All Rights Reserved.
- #
- # Licensed under the Apache License, Version 2.0 (the "License");
- # you may not use this file except in compliance with the License.
- # You may obtain a copy of the License at
- #
- # http://www.apache.org/licenses/LICENSE-2.0
- #
- # Unless required by applicable law or agreed to in writing, software
- # distributed under the License is distributed on an "AS IS" BASIS,
- # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- # See the License for the specific language governing permissions and
- # limitations under the License.
- #
- */
+
 $(document).ready(function() {
 
     $("#importFileView").click(function() {
@@ -43,6 +27,56 @@ $(document).ready(function() {
         $("#updatePropertyBtn").hide();
         $("#savePropertyBtn").show();
     });
+});
 
-
-}); 
+var app = new Vue({
+    el: '.app',
+    data: {
+        leafNodes: [],
+        rightDatas: [],
+        keyValue: {
+            key:'',
+            value:''
+        },
+        newNode:{},
+        currentNode:'/',
+    },
+    mounted: function () {
+        var _self = this;
+        axiosUtils.get("/home/getChilds")
+            .then(function (res) {
+                if (res.data.success) {
+                    _self.leftNodes = res.data.data;
+                }
+            }).catch(function (reason) {
+                console.log(reason);
+        })
+    },
+    methods:{
+        addNode:function(){
+            var _self=this;
+            var postData={
+                parentNode:_self.currentNode,
+                node:_self.newNode
+            };
+            axiosUtils.post('/home/createNode',postData)
+                .then(function (res) {
+                    if(res.data.success){
+                        alert('创建节点成功！');
+                    }
+                })
+                .catch(function (reason) {
+                    console.log(reason);
+                })
+        },
+        addProperty:function () {
+            alert('addProperty');
+        },
+        updateProperty:function(){
+            alert('updateProperty');
+        },
+        delNode:function () {
+            alert('delete');
+        }
+    }
+});

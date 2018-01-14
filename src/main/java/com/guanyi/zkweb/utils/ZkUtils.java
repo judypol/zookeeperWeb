@@ -58,12 +58,16 @@ public class ZkUtils {
         if(StringUtils.isEmpty(nodeName)){
             throw new NullPointerException(nodeName+"nodeName is null");
         }
+        if(nodeName==null||nodeName.equals("/")){
+            return "/";
+        }
+        if(nodeName.endsWith("/")){
+            nodeName=nodeName.substring(nodeName.length()-1);
+        }
         if(!nodeName.startsWith("/")){
             nodeName="/"+nodeName;
         }
-        if(nodeName.endsWith("/")){
-            nodeName=nodeName.substring(nodeName.length()-2,nodeName.length()-1);
-        }
+
         return nodeName;
     }
 

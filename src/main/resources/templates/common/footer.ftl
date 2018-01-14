@@ -23,11 +23,7 @@
                 <p class="text-muted credit">Powered by: <a href="http://www.eclipse.org/jetty/" target="_blank">Jetty</a></p>
             </div>
             <div class="col-md-4 text-center">
-                <#if uptime??>
-                <p class="text-muted credit">
-                    Started On ${uptime}
-                </p>
-                </#if>
+
             </div>
             <div class="col-md-4 text-right">
                 <p class="text-muted credit"><a href="https://github.com/DeemOpen/zkui/issues" target="_blank">Bugs</a></p>
