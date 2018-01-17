@@ -6,27 +6,25 @@
     <div class="row-fluid">
         <div class="col-md-12">
 
+            <ul class="breadcrumb">
+                <li><a href="/home/index?zkPath=${zkPath}" class="breadcrumb-select">${zkPath}</a></li>
+            </ul>
+
         </div>
     </div>
-
+    <input ref="parentPath" value="${zkPath}" type="hidden"/>
     <div class="row-fluid">
         <!--左边树结构-->
         <div class="col-md-3 well pre-scrollable scroll-pane">
             <span class="glyphicon glyphicon-folder-close"></span>
-            <a href="/home/index?zkPath="><..></a>
+            <a href="/home/index?zkPath=${parentNode}"><..></a>
             <br/>
             <template v-for="node in leafNodes">
-                <input type="checkbox" name="nodeChkGroup" value=""/>
+                <input type="checkbox" name="nodeChkGroup" :value="node.zkPath"/>
                 <span class="glyphicon glyphicon-folder-close"></span>
-                <a href="/home?zkPath="></a>
+                <a :href="'/home/index?zkPath='+node.zkPath">{{node.name}}</a>
                 <br/>
             </template>
-        <#--<#list nodeLst as node>-->
-        <#--<input type="checkbox" name="nodeChkGroup" value="${currentPath}${node}"/>-->
-        <#--<span class="glyphicon glyphicon-folder-close"></span>-->
-        <#--<a href="/home?zkPath=${currentPath}${node}">${node}</a>-->
-        <#--<br/>-->
-        <#--</#list>-->
 
         </div>
         <!--右边表格-->
@@ -35,28 +33,28 @@
                 <thead>
                 <tr>
                     <th style="width: 4%"></th>
-                    <th>Name</th>
+                    <th>Key</th>
                     <th>Value</th>
+                    <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <template>
-                    <tr v-for="node in leafNodes">
-                        <td></td>
+                    <tr v-for="item in rightDatas">
+                        <td>
+                            <input type="checkbox" name="propChkGroup" :value="item.key"/>
+                        </td>
+                        <td>
+                            {{item.key}}
+                        </td>
+                        <td>
+                            {{item.value}}
+                        </td>
+                        <td>
+                            <button type="button" data-toggle="modal" data-target="#addPropertyModal">修改属性</button>
+                        </td>
                     </tr>
                 </template>
-                <tr>
-                    <td>
-                        <input type="checkbox" name="propChkGroup" value="测试值"/>
-                    </td>
-                    <td>
-                        <a href="#" data-toggle="modal" class="href-select" data-target="#addPropertyModal" itemprop="">添加属性</a>
-                    <#--<a href="#" data-toggle="modal" class="href-select" data-target="#addPropertyModal" itemprop="" ></a>-->
-                    </td>
-                    <td>
-
-                    </td>
-                </tr>
                 </tbody>
             </table>
         </div>
@@ -124,7 +122,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">Add Property</h4>
+                            <h4 class="modal-title" id="myModalLabel">添加属性</h4>
                         </div>
                         <div class="modal-body">
                             <div class="input-group input-group-lg">

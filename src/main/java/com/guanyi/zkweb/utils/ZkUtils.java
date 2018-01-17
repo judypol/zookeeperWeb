@@ -45,7 +45,7 @@ public class ZkUtils {
         nodeName=getNodeName(nodeName);
         Stat stat=this.client.checkExists().forPath(nodeName);
         if(stat==null){
-            this.client.create().creatingParentsIfNeeded().forPath(nodeName);
+            this.client.create().creatingParentsIfNeeded().forPath(nodeName,null);
         }
     }
 
@@ -82,6 +82,8 @@ public class ZkUtils {
         Stat stat=this.client.checkExists().forPath(chkNodeName);
         if(stat==null){         //如果不存在节点则新建一个
             this.client.create().creatingParentsIfNeeded().forPath(chkNodeName,data.getBytes(Charset.forName("UTF-8")));
+        }else{
+            this.client.setData().forPath(nodeName,data.getBytes(Charset.forName("UTF-8")));
         }
     }
 

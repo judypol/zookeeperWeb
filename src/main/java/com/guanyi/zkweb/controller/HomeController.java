@@ -2,6 +2,7 @@ package com.guanyi.zkweb.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.guanyi.zkweb.services.ZKService;
+import com.guanyi.zkweb.services.models.KeyValue;
 import com.guanyi.zkweb.services.models.Node;
 import com.guanyi.zkweb.utils.ZkUtils;
 import org.slf4j.Logger;
@@ -26,6 +27,13 @@ public class HomeController {
     @RequestMapping("/index")
     public ModelAndView index(String zkPath){
         ModelAndView view=new ModelAndView("/home");
+        view.addObject("zkPath",zkPath);
+        if(StringUtils.isEmpty(zkPath)||"/".equals(zkPath)){
+            view.addObject("parentNode","");
+        }else{
+            String parentNode=zkPath.substring(0,zkPath.lastIndexOf("/"));
+            view.addObject("parentNode",parentNode);
+        }
         return view;
     }
 
@@ -44,6 +52,26 @@ public class HomeController {
         }catch (Exception ex){
             this.logger.error(this.getClass().getName()+".getChilds",ex);
             rm=new ResponseMessage("获取节点数据失败！");
+        }
+        return rm;
+    }
+
+    /**
+     * 获取节点下的数据
+     * @param zkPath
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping("/getKVs")
+    public @ResponseBody ResponseMessage getKVs(String zkPath) throws Exception{
+        ResponseMessage rm;
+        try{
+            String nodeName=StringUtils.isEmpty(zkPath)?"/":zkPath;
+            List<KeyValue> kvs=zkService.getKVs(nodeName);
+            rm=new ResponseMessage(true,null,kvs);
+        }catch (Exception ex){
+            this.logger.error(this.getClass().getName()+".getKVs",ex);
+            rm=new ResponseMessage("获取数据失败！");
         }
         return rm;
     }
@@ -127,5 +155,13 @@ public class HomeController {
             ResponseMessage rm=new ResponseMessage("删除节点是吧！");
             return rm;
         }
+    }
+
+    /**
+     *
+     */
+
+    public void login(){
+
     }
 }

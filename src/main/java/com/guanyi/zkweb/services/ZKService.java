@@ -70,6 +70,9 @@ public class ZKService {
     public List<KeyValue> getKVs(String nodeName) throws Exception{
         List<String> childNodes=zkUtils.getChildNodes(nodeName);
         List<KeyValue> kvs=new ArrayList<>();
+        if("/".equals(nodeName)){
+            nodeName="";
+        }
         for(String childNode : childNodes){
             String childNodeName=nodeName.concat("/").concat(childNode);
             String data=zkUtils.getData(childNodeName);

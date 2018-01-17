@@ -17,7 +17,7 @@
 */
 html,
 body {
-    height: 95%;
+    height: 100%;
     padding-top: 5px;
     /* The html and body elements cannot have any padding or margin. */
 }
@@ -50,6 +50,9 @@ body {
 
 table { table-layout: fixed; }
 table td { word-wrap: break-word; }
+.container{
+    width: 100%;
+}
 /* Custom page CSS
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
